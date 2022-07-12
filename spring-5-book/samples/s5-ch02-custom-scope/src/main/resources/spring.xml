@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 定义 bean -->
+    <bean id="messageServiceImpl" class="com.link.spring.scope.service.MessageServiceImpl"
+          scope="threadScope">
+        <!--		scope="threadScope" 作用范围配置 -->
+        <constructor-arg name="username" value="lin k"/>
+        <constructor-arg name="age" value="20"/>
+    </bean>
+
+    <bean id="messagePrinter" class="com.link.spring.scope.MessagePrinter">
+        <constructor-arg name="service" ref="messageServiceImpl"/>
+    </bean>
+
+    <bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+        <property name="scopes">
+            <map>
+                <entry key="threadScope">
+                    <bean class="com.link.spring.scope.ThreadScope"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+</beans>
